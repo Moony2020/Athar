@@ -1,0 +1,1056 @@
+نبدأ بخطة ATHAR مستقلة ونظيفة من الصفر.
+
+والـHero عندك كما قلت: صورة ثابتة responsive، بدون scroll animation وبدون cinematic sequence. ممكن يكون فيه فقط micro-interactions خفيفة جدًا مثل hover أو fade-in عند أول تحميل، لكن لا نعمل frame sequence ولا GSAP scroll storytelling.
+
+التقنية التي أنصح بها لـATHAR
+
+أفضل Stack لهذا المشروع:
+
+Next.js 16.3.x
+React 19
+TypeScript
+Tailwind CSS
+CSS Modules
+MongoDB Atlas
+Auth.js
+Stripe Payment Element
+Direct PayPal Orders API
+Resend
+Cloudinary أو storage مناسب للصور
+Zod
+
+ولا أنصح بـNode.js + Express منفصل هنا؛ Next.js يكفي للـfrontend والـbackend في نفس المشروع:
+
+Next.js
+├── Frontend
+├── Server Components
+├── Route Handlers
+├── Server Actions
+├── Authentication
+├── Checkout
+├── Webhooks
+├── Admin
+└── API boundaries
+
+هذا أبسط، أنظف، وأسهل في deployment والصيانة.
+
+وبالنسبة للـCSS، أتفق معك 100%. ممنوع ملف CSS ضخم 7,000 أو 10,000 سطر.
+
+نستخدم مثلًا:
+
+src/styles/
+  globals.css
+  tokens.css
+  typography.css
+  animations.css
+
+src/components/home/
+  Hero/
+    Hero.tsx
+    Hero.module.css
+
+  Collections/
+    Collections.tsx
+    Collections.module.css
+
+  Bestsellers/
+    Bestsellers.tsx
+    Bestsellers.module.css
+
+  Story/
+    Story.tsx
+    Story.module.css
+
+  FragranceGuide/
+    FragranceGuide.tsx
+    FragranceGuide.module.css
+
+Tailwind للأشياء البسيطة:
+
+spacing
+flex
+grid
+responsive
+visibility
+basic typography
+
+وCSS Modules للتصميم الخاص:
+
+organic shapes
+custom masks
+complex image positioning
+hero composition
+editorial layouts
+special hover effects
+
+بهذا ما يتحول المشروع إلى فوضى.
+
+ATHAR — الخطة التي أقترحها
+
+Phaseالمحتوى
+
+
+
+0 — Repository & Project Foundation
+
+إنشاء المشروع، Next/React/TypeScript، lint، env، aliases، folder architecture، docs
+
+1 — Design System & Shared UI
+
+الألوان، typography، spacing، buttons، cards، icons، responsive rules، header/footer
+
+2 — Homepage
+
+Hero الثابت، Shop by Collection، Bestselling Fragrances، Our Story، Fragrance Guide
+
+3 — Catalog & Product Discovery
+
+Shop، Women/Men/Unisex، Brands، Collections، Search، Filters، Sorting
+
+4 — Product Detail
+
+Gallery، sizes، price، stock، notes، ingredients، related products، wishlist، add to cart
+
+5 — Cart & Wishlist
+
+Guest cart، account cart، drawer، full cart، quantity، totals، wishlist
+
+6 — Authentication & Account
+
+Register، verify email، login، logout، recovery، profile، addresses، order history
+
+7 — Checkout Foundation
+
+contact، address، shipping، totals، VAT، discounts، inventory reservation
+
+8 — Payments
+
+Stripe Card + Direct PayPal، paymentAttempt، provider IDs، webhooks، idempotency
+
+9 — Orders & Transactional Email
+
+canonical Order، Order number، customer email، admin email، receipt/invoice document
+
+10 — Admin Platform
+
+Dashboard، Products، Images، Stock، Orders، Customers، Discounts، Brands، Collections
+
+11 — Content Pages
+
+About، Journal، Brands، Contact، FAQ، legal/privacy/cookies
+
+12 — QA & Security
+
+security، responsive، accessibility، SEO، performance، inventory concurrency
+
+13 — Production
+
+production DB، Stripe Live، PayPal Live، email domain، deployment، backups، E2E
+
+هذا المشروع لا يحتاج Phase Cinematic مثل AURA.
+
+Phase 0 — البداية الصحيحة
+
+أول شيء Codex لا يبدأ يصمم الـHero مباشرة.
+
+ينشئ:
+
+/docs
+
+ونعمل Documentation من البداية:
+
+docs/
+├── MASTER-PLAN.md
+├── PROJECT-STATUS.md
+├── ARCHITECTURE.md
+├── DESIGN-SYSTEM.md
+├── DATABASE.md
+├── API.md
+├── SECURITY.md
+├── TESTING.md
+├── CHANGELOG.md
+│
+├── phases/
+│   ├── PHASE-00-FOUNDATION.md
+│   ├── PHASE-01-DESIGN-SYSTEM.md
+│   ├── PHASE-02-HOMEPAGE.md
+│   └── ...
+│
+└── decisions/
+    ├── ADR-001-APPLICATION-ARCHITECTURE.md
+    ├── ADR-002-DATABASE.md
+    ├── ADR-003-AUTH.md
+    └── ...
+
+والقاعدة:
+
+لا توجد مرحلة:
+"خلصتها"
+
+إلا لو:
+implementation + tests + docs + verification
+كلها تمت.
+
+وكل Stage تعمل:
+
+Goal Contract
+↓
+Owner Decisions إن وجدت
+↓
+Implementation Plan / Ledger
+↓
+Implementation
+↓
+Tests
+↓
+Documentation
+↓
+Sign-off
+↓
+STOP
+
+نفس الانضباط الذي نستخدمه مع AURA، لكن بدون نسخ تفاصيل AURA.
+
+Phase 1 — Design System
+
+قبل الصفحة الرئيسية نفسها، نثبت هوية ATHAR.
+
+من الصورة:
+
+Background
+warm ivory / cream
+
+Primary text
+near-black
+
+Accent
+warm beige / champagne
+
+Supporting colors
+sand
+stone
+warm brown
+soft blush
+muted gold
+
+Typography تكون:
+
+Editorial Serif
+للـ:
+Hero
+Section headings
+Product storytelling
+
+Clean Sans Serif
+للـ:
+Navigation
+Prices
+Buttons
+Forms
+Filters
+Checkout
+Admin
+
+ونبني Tokens بدل أرقام متناثرة:
+
+--color-bg
+--color-surface
+--color-text
+--color-muted
+--color-accent
+--color-border
+
+--space-xs
+--space-sm
+--space-md
+--space-lg
+--space-xl
+
+--radius-organic
+--shadow-soft
+
+Phase 2 — Homepage
+
+هذه الصفحة في الصورة تنقسم منطقيًا إلى خمسة Sections مستقلة.
+
+Hero
+
+بالضبط كما طلبت:
+
+Static hero
+No scroll animation
+No video sequence
+No frame animation
+
+لكن responsive composition حقيقية.
+
+Desktop:
+
+ATHAR logo
+navigation
+
+left:
+eyebrow
+A Story
+In Every Drop
+description
+CTA
+
+center:
+perfume hero image
+
+right:
+Natural Ingredients
+Long Lasting
+A Signature For You
+
+وعلى mobile لا نحاول ضغط نفس الـdesktop composition. نعيد ترتيبها بشكل محترم:
+
+image
+heading
+description
+CTA
+benefits
+
+ولا نعتمد على absolute positioning لكل شيء بطريقة تتكسر على الهاتف.
+
+Shop by Collection
+
+نستخدم Organic cards مثل الصورة، وليس كل شيء rectangles.
+
+For Her
+For Him
+Unisex
+New Arrivals
+
+يمكن استخدام:
+
+border-radius:
+45% 55% 52% 48% / 40% 42% 58% 60%;
+
+أو masks/clip-path عند الحاجة.
+
+لكن لا نكرر نفس blob shape أربع مرات حرفيًا.
+
+Bestselling Fragrances
+
+Horizontal product presentation:
+
+Product image
+Brand
+Name
+Price
+Wishlist
+optional badge
+
+مثلاً:
+
+Most Loved
+New
+Exclusive
+
+لكن لا نخترع Bestselling أو Most Loved data. هذه تكون merchandising field حقيقية في database/admin.
+
+Our Story
+
+نفس الـeditorial feeling الموجود بالصورة:
+
+large asymmetric photography
+quote area
+story text
+brand values
+CTA
+
+Fragrance Guide
+
+هذه تكون section جميلة جدًا ومفيدة:
+
+Floral
+Woody
+Fresh
+Oriental
+
+وفي المستقبل نربطها بفلاتر المنتجات.
+
+مثلاً:
+
+/collections/floral
+/fragrances?family=woody
+
+وليس مجرد صور لا تعمل.
+
+Product System
+
+من البداية Product لا يكون hardcoded داخل JSX.
+
+MongoDB:
+
+Product
+├── name
+├── slug
+├── brandId
+├── gender/audience
+├── description
+├── shortDescription
+├── fragranceFamily
+├── topNotes
+├── heartNotes
+├── baseNotes
+├── ingredients
+├── images
+├── variants
+├── status
+├── featured
+├── bestseller
+└── launchAt
+
+Variant:
+
+variantId
+sku
+sizeMl
+price
+compareAtPrice
+stock
+isActive
+
+كل الأسعار:
+
+integer minor units
+
+مثلاً:
+
+1299 SEK
+→ 129900 öre
+
+وليس floating-point.
+
+Brands
+
+بما أن التصميم فيه:
+
+Dior
+Versace
+YSL
+Lancôme
+Armani
+
+نعمل Brand Domain حقيقي:
+
+Brand
+├── name
+├── slug
+├── description
+├── logo
+├── heroImage
+└── status
+
+فتصبح:
+
+/brands
+/brands/dior
+/brands/versace
+
+وليس مجرد filter نصي.
+
+Payment
+
+وهنا نقدر نستفيد من المعرفة التي اكتسبناها من AURA، لكن نطبقها صح من البداية.
+
+ATHAR لا نريد أن يصل لنفس gap الذي اكتشفناه اليوم.
+
+من البداية:
+
+paymentAttempt
+│
+├── id
+├── provider
+├── amount
+├── currency
+├── cartId
+├── reservationId
+│
+├── providerPaymentId
+├── providerPaymentStatus
+│
+└── timestamps
+
+Stripe:
+
+ATHAR paymentAttempt
+        ↕
+Stripe PaymentIntent
+pi_...
+
+PayPal:
+
+ATHAR paymentAttempt
+        ↕
+PayPal Order
+        ↕
+PayPal Capture
+
+وبذلك الـwebhooks من أول تصميمها تعرف بالضبط ما الذي تربطه.
+
+الدفع الفعلي:
+
+CARD
+→ Stripe Payment Element
+
+PAYPAL
+→ Direct PayPal
+
+ولا نخلط PayPal داخل Stripe.
+
+الـOrder
+
+وهذه نقطة مهمة جدًا.
+
+لا نجعل:
+
+Stripe PaymentIntent ID
+
+هو رقم طلب العميل.
+
+ATHAR يولد Order Number خاص به، مثل:
+
+ATH-2026-000001
+ATH-2026-000002
+
+ثم:
+
+Customer
+↓
+Order Confirmation
+
+Customer Email
+↓
+ATH-2026-000001
+
+Admin Email
+↓
+New Order ATH-2026-000001
+
+My Account
+↓
+ATH-2026-000001
+
+Admin Dashboard
+↓
+ATH-2026-000001
+
+Stripe/PayPal IDs تبقى references داخلية للدفع.
+
+الـEmail
+
+هذه المرة نحطها بالخطة من البداية.
+
+بعد trusted payment + canonical Order:
+
+Customer:
+Order confirmation email
+Order details
+Shipping address
+Items
+Subtotal
+Shipping
+VAT
+Total
+Payment method
+Order number
+Receipt/invoice document where applicable
+
+Admin:
+New Order email
+Customer
+Items
+Total
+Payment method
+Order number
+Admin order link
+
+ليس:
+
+browser redirected to success
+→ send email
+
+بل:
+
+trusted payment
+→ canonical Order
+→ idempotent email
+
+Admin
+
+ATHAR يحتاج Admin محترم، ليس CRUD بدائي.
+
+Dashboard
+
+Products
+Brands
+Collections
+Inventory
+Orders
+Customers
+Discounts
+Journal
+Homepage merchandising
+Site settings
+
+ومن Admin تستطيع مثلًا تحدد:
+
+Featured
+Bestseller
+New Arrival
+Homepage order
+Collection membership
+Stock
+Price
+
+وبذلك الـHomepage نفسها تصبح dynamic لاحقًا.
+
+الصور
+
+لا نحط كل الصور داخل public للأبد إذا الموقع سيكبر.
+
+أوصي:
+
+Cloudinary
+
+أو storage مناسب.
+
+MongoDB يخزن metadata فقط:
+
+url
+publicId
+alt
+width
+height
+position
+type
+
+ولا نخزن الصور نفسها داخل MongoDB.
+
+أهم فرق عن AURA
+
+ATHAR أبسط بكثير من ناحية الـexperience:
+
+AURA
+cinematic / portals / frame sequences / GSAP worlds
+
+ATHAR
+luxury editorial ecommerce
+static photography
+subtle interactions
+strong typography
+organic layouts
+
+وهذا شيء جيد؛ سيسمح لنا نصرف الوقت على:
+
+catalog
+checkout
+payments
+orders
+admin
+SEO
+performance
+mobile
+
+بدل تعقيد animation runtime.
+
+أول Prompt أعطيه لـCodex
+
+لو المشروع جديد أو الموجود حاليًا مجرد prototype، لا تعطه Prompt يبني الموقع كله مرة واحدة.
+
+أول Prompt فقط يعمل Audit + Documentation + Master Plan.
+
+استخدم هذا:
+
+PROJECT: ATHAR — Premium Fragrances
+
+You are beginning a new production-quality luxury fragrance ecommerce project.
+
+Do NOT start broad feature implementation yet.
+
+Your first responsibility is to inspect the actual repository and establish the
+project's verified technical and documentation baseline.
+
+==================================================
+1. PRODUCT VISION
+==================================================
+
+ATHAR is a premium fragrance ecommerce experience with an editorial luxury
+visual identity.
+
+The supplied homepage reference defines the intended visual direction:
+
+- warm ivory / cream palette
+- strong editorial serif typography
+- restrained sans-serif UI typography
+- premium fragrance photography
+- organic/asymmetric image/card silhouettes
+- generous spacing
+- minimal luxury navigation
+- editorial storytelling
+- no generic SaaS/Bootstrap/Shopify appearance
+
+The homepage includes conceptually:
+
+- Header/navigation
+- Static Hero
+- Shop by Collection
+- Bestselling Fragrances
+- Our Story
+- Fragrance Guide
+- Footer
+
+IMPORTANT:
+
+The Hero is STATIC photography.
+
+Do NOT implement:
+
+- scroll-driven hero animation
+- video frame sequences
+- cinematic portal runtime
+- canvas animation
+- GSAP scroll storytelling
+
+Subtle entrance/hover transitions may be evaluated later, but no cinematic
+scroll system is part of ATHAR.
+
+==================================================
+2. PREFERRED APPLICATION STACK
+==================================================
+
+Inspect the repository first.
+
+If no incompatible established architecture exists, prefer:
+
+- Next.js 16.3.x compatible current stable release
+- React 19
+- TypeScript
+- Next.js App Router
+- MongoDB Atlas
+- Tailwind CSS for utility/layout work
+- CSS Modules for complex editorial component styling
+- Zod validation
+- Auth.js for customer authentication
+- Stripe Payment Element for credit/debit cards
+- Direct PayPal Orders API for PayPal
+- server-authoritative payment webhooks
+- Resend or another later owner-approved transactional email provider
+- Cloudinary or an owner-approved media provider for production product imagery
+
+Do NOT introduce a separate Express backend unless repository inspection proves
+a real architectural requirement.
+
+Do NOT use JavaScript where TypeScript is already the accepted application
+language without a specific reason.
+
+==================================================
+3. CSS / STYLING ARCHITECTURE
+==================================================
+
+Do NOT create one giant stylesheet.
+
+Never allow globals.css or another file to grow into thousands of lines of
+component-specific CSS.
+
+Establish a modular styling strategy such as:
+
+src/styles/
+  globals.css
+  tokens.css
+  typography.css
+  animations.css
+
+and component-local styles such as:
+
+src/components/home/Hero/Hero.module.css
+src/components/home/Collections/Collections.module.css
+src/components/home/Bestsellers/Bestsellers.module.css
+src/components/home/Story/Story.module.css
+src/components/home/FragranceGuide/FragranceGuide.module.css
+
+Tailwind should handle appropriate utilities/layout/responsive composition.
+
+CSS Modules should own complex bespoke editorial shapes, masks, positioning and
+component-specific effects.
+
+Do not duplicate design tokens throughout files.
+
+==================================================
+4. DOCUMENTATION IS MANDATORY
+==================================================
+
+Create or reconcile:
+
+docs/
+  MASTER-PLAN.md
+  PROJECT-STATUS.md
+  ARCHITECTURE.md
+  DESIGN-SYSTEM.md
+  DATABASE.md
+  API.md
+  SECURITY.md
+  TESTING.md
+  CHANGELOG.md
+
+docs/phases/
+
+docs/decisions/
+
+Every meaningful Phase and Stage must be documented.
+
+No stage may be marked COMPLETE solely because code exists.
+
+Completion requires:
+
+implementation
++ tests
++ documentation
++ verification
++ explicit sign-off
+
+==================================================
+5. GOVERNANCE MODEL
+==================================================
+
+Use:
+
+Phase
+→ Stage
+→ Goal Contract
+→ genuine Owner Decisions if required
+→ Phase Ledger / implementation plan
+→ implementation
+→ tests/evidence
+→ documentation
+→ sign-off
+→ next stage
+
+Stop at owner decision boundaries.
+
+Never silently jump ahead.
+
+Never mark unavailable external evidence as PASS.
+
+Use:
+
+IMPLEMENTED — NOT YET VERIFIED
+
+where external evidence genuinely cannot yet be executed.
+
+==================================================
+6. DO NOT COPY AURA-SPECIFIC ARCHITECTURE
+==================================================
+
+ATHAR is an independent project.
+
+Do NOT copy references such as:
+
+- AURA
+- cinematic worlds
+- portal runtime
+- six cinematic products
+- fragrance world ACQUIRE flows
+- AURA-specific route contracts
+- AURA completion statuses
+
+You may reuse sound engineering principles, but ATHAR documentation and domain
+contracts must be independently derived from the actual ATHAR repository and
+product requirements.
+
+==================================================
+7. TARGET MASTER PLAN
+==================================================
+
+The Master Plan should evaluate and formalize this approximate sequence:
+
+Phase 0 — Repository Audit & Baseline
+Phase 1 — Architecture, Design System & Domain Foundation
+Phase 2 — Homepage
+Phase 3 — Catalog, Brands, Collections & Product Discovery
+Phase 4 — Product Detail & Merchandising
+Phase 5 — Cart & Wishlist
+Phase 6 — Authentication & Customer Account
+Phase 7 — Checkout Foundation
+Phase 8 — Stripe + Direct PayPal Payments and Webhooks
+Phase 9 — Canonical Orders & Transactional Email
+Phase 10 — Admin Platform
+Phase 11 — Content / Journal / Legal / Customer Experience
+Phase 12 — Security, Performance, Accessibility & SEO
+Phase 13 — Production Readiness
+
+Do not blindly create this exact structure if repository inspection reveals a
+strong reason to adjust it.
+
+Any adjustment must be documented and justified.
+
+==================================================
+8. PAYMENT ARCHITECTURE REQUIREMENT
+==================================================
+
+Record now as a future invariant only.
+
+Functional payment providers:
+
+CARD
+→ Stripe Payment Element
+
+PAYPAL
+→ direct PayPal integration
+
+Do not combine direct PayPal into Stripe.
+
+Future paymentAttempt architecture must durably correlate provider payments.
+
+For Stripe:
+
+ATHAR paymentAttempt
+↔
+Stripe PaymentIntent ID
+
+For PayPal:
+
+ATHAR paymentAttempt
+↔
+PayPal Order / Capture
+
+The future payment model must not repeat the mistake of creating a provider
+payment without durably linking its provider ID to the canonical local
+paymentAttempt before customer payment progression.
+
+Browser redirects are never payment proof.
+
+Signed/verified webhooks and trusted provider state are authoritative.
+
+No raw card data may enter ATHAR persistence.
+
+==================================================
+9. FUTURE ORDER ARCHITECTURE
+==================================================
+
+Record as future requirements only.
+
+A successful trusted payment later produces a canonical ATHAR Order.
+
+ATHAR owns its own customer-facing order number, for example:
+
+ATH-YYYY-XXXXXX
+
+Provider IDs are payment references, not customer Order numbers.
+
+Future order finalization must support:
+
+- canonical immutable Order snapshot
+- customer order confirmation email
+- admin New Order email
+- receipt/invoice-type document according to later approved legal/accounting
+  requirements
+- customer Account Order History
+- later Admin Order Management
+
+Do not implement these in Phase 0.
+
+==================================================
+10. DATABASE PRINCIPLES
+==================================================
+
+Future product/catalog data must be canonical and database-backed.
+
+Do not hard-code production catalog products into JSX.
+
+Product architecture should later evaluate:
+
+- Product
+- ProductVariant
+- ProductMedia
+- Brand
+- Collection
+- fragrance families/notes
+- Inventory
+- User
+- Address
+- Cart
+- Wishlist
+- paymentAttempt
+- provider-event inbox
+- Order
+- Discount
+
+Money must use integer minor units.
+
+Do not store image binary data directly in MongoDB.
+
+==================================================
+11. HOMEPAGE CONTENT PRINCIPLE
+==================================================
+
+The supplied visual reference is a design direction, not permission to invent
+commercial facts.
+
+Do not claim:
+
+- bestseller
+- most loved
+- new arrival
+- discounts
+- ratings
+- stock
+- brand authorization
+
+without canonical owner-approved data.
+
+Real brand/product names visible in reference imagery must not automatically
+become canonical production catalog data.
+
+==================================================
+12. PHASE 0 TASK
+==================================================
+
+For this run ONLY:
+
+1. Audit the actual repository.
+2. Identify existing stack/version/package manager.
+3. Map routes/components/styles/assets.
+4. Identify current responsive/design implementation.
+5. Identify technical debt and risks.
+6. Determine whether this is a prototype or established application.
+7. Create/reconcile the documentation architecture.
+8. Create the ATHAR Master Plan.
+9. Create Project Status.
+10. Create Phase 0 audit documentation.
+11. Run safe baseline checks available in the repository.
+
+Do NOT begin Phase 1 feature implementation.
+
+==================================================
+13. REPORT
+==================================================
+
+Report:
+
+- verified current stack
+- repository structure
+- current homepage/component state
+- styling architecture
+- database/auth/payment state
+- risks/debt
+- files created/modified
+- baseline TypeScript/lint/build/test/audit results
+- proposed final Phase sequence
+- genuine Owner Decisions required before Phase 1
+
+Then:
+
+ATLAS_STOP
+
+Await owner review.
+
+Do NOT begin Phase 1 automatically.
+
+هذا هو الـPrompt الذي أبدأ به المشروع.
+
+وبعد أن Codex يرجع لنا Audit حقيقي، أنا أراجع التقرير معك، وبعدها نثبت Stack نهائيًا ونبدأ Phase 1. بهذه الطريقة ما نكرر خطأ أن نبني نصف المشروع ثم نكتشف لاحقًا أن architecture ناقصة.

@@ -380,9 +380,6 @@
       @media (max-width: 760px) {
         .hero__cta { margin-left: 0 !important; }
       }
-      @media (max-width: 760px) {
-        .hero__cta { margin-left: 0 !important; }
-      }
       @media (min-width: 600px) and (max-width: 760px) {
         .hero__cta { margin-top: 85px !important; }
         .brand__name { font-size: 1.75rem !important; }
@@ -453,13 +450,13 @@
       @media (min-width: 761px) and (max-width: 768px) {
         .notes-wrapper { bottom: -14px !important; }
       }
-      /* Compact glass notes bar */
+      /* Subtle luxury glass notes bar */
       .notes {
-        background: rgba(255, 247, 235, .48) !important;
-        border: 1px solid rgba(255, 255, 255, .55) !important;
-        -webkit-backdrop-filter: blur(14px) saturate(115%) !important;
-        backdrop-filter: blur(14px) saturate(115%) !important;
-        box-shadow: 0 6px 18px rgba(68, 40, 14, .07) !important;
+        background: rgba(255, 250, 242, 0.18) !important;
+        border: 1px solid rgba(255, 250, 240, 0.32) !important;
+        -webkit-backdrop-filter: blur(4px) !important;
+        backdrop-filter: blur(4px) !important;
+        box-shadow: 0 4px 18px rgba(68, 40, 14, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
         scroll-margin: 0 !important;
         scroll-margin-top: 0 !important;
         padding: 8px 12px !important;
@@ -470,7 +467,7 @@
         justify-content: center !important;
         gap: 10px !important;
         padding: 2px 10px !important;
-        border-right: 1px solid rgba(37, 27, 18, 0.18) !important;
+        border-right: 1px solid rgba(37, 27, 18, 0.13) !important;
         min-width: 0 !important;
       }
       .notes article:last-child {
@@ -552,7 +549,7 @@
         .notes-wrapper { bottom: 10px !important; }
       }
       @media (max-width: 600px) {
-        .hero__bottle { transform: translateY(-3px) !important; }
+        .hero__bottle { transform: translateY(12px) !important; }
         .notes-wrapper { transform: translateY(-15px) !important; }
       }
       @media (min-width: 601px) and (max-width: 768px) {
@@ -712,7 +709,7 @@
         .hero__wordmark { transform: translateX(-50%) translateY(20px) !important; }
       }
       @media (min-width: 1034px) {
-        .hero__wordmark { left: auto !important; right: 30% !important; transform: none !important; }
+        .hero__wordmark { left: auto !important; right: calc(30% - 45px) !important; transform: none !important; }
       }
       @media (min-width: 900px) and (max-width: 992px) {
         .hero__bottle { left: 60% !important; transform: translateX(-50%) translateY(-60px) !important; }
@@ -785,7 +782,7 @@
           gap: 12px;
           position: absolute;
           left: 0;
-          top: 380px;
+          top: 360px;
           margin-top: 0;
           color: var(--ink);
           text-decoration: none;
@@ -832,12 +829,6 @@
       @media (min-width: 768px) and (max-width: 796px) {
         .hero__bottle { transform: translateX(-50%) translateY(-25px) !important; }
       }
-      @media (min-width: 601px) and (max-width: 760px) {
-        .hero__bottle { left: 43% !important; transform: translateX(-50%) translateY(0) scale(0.95) !important; }
-        .hero__wordmark { left: 60% !important; transform: translateX(-50%) !important; font-size: clamp(4.5rem, 16vw, 7.2rem) !important; }
-        .notes-wrapper { transform: translateY(-10px) !important; }
-        .hero__copy h1 { font-size: 2.4rem !important; }
-      }
       @media (min-width: 760px) and (max-width: 848px) {
         .hero__wordmark { transform: translateX(-50%) translateY(45px) !important; }
       }
@@ -859,13 +850,38 @@
           margin-top: 12px !important;
         }
       }
-      @media (min-width: 601px) and (max-width: 760px) {
-        .hero__cta {
-          transform: translateY(110px) !important;
-          margin-top: 14px !important;
+      @media (min-width: 761px) and (max-width: 798px) {
+        .hero__wordmark { transform: translateX(-50%) translateY(100px) !important; }
+        .hero__cta { transform: translateY(5px) !important; margin-top: 12px !important; }
+      }
+      @media (min-width: 761px) and (max-width: 768px) {
+        .hero__bottle { transform: translateX(-50%) translateY(-40px) scale(1.12) !important; }
+      }
+      @media (min-width: 769px) and (max-width: 787px) {
+        .hero,
+        .hero__art {
+          min-height: 730px !important;
         }
       }
-      .hero__wordmark { color: rgba(255, 255, 255, 0.34) !important; }
+      @media (min-width: 601px) and (max-width: 760px) {
+        .hero,
+        .hero__art {
+          height: 770px !important;
+          min-height: 770px !important;
+          max-height: 770px !important;
+        }
+        .hero__bottle { left: auto !important; align-self: center !important; transform: translateX(80px) translateY(20px) scale(0.97) !important; }
+        .hero__wordmark { transform: translateX(-50%) translateY(70px) !important; margin-left: -20px !important; }
+        .hero__wordmark { left: 60% !important; font-size: clamp(4.5rem, 16vw, 7.2rem) !important; }
+        .notes-wrapper { transform: translateY(0) !important; }
+        .hero__copy h1 { font-size: 2.4rem !important; }
+        .hero__cta { transform: translateY(5px) !important; margin-top: 12px !important; }
+      }
+      @media (min-width: 787px) and (max-width: 849px) {
+        .hero__wordmark { transform: translateX(-50%) translateY(140px) !important; }
+        .hero__cta { transform: none !important; margin-top: 18px !important; }
+      }
+      .hero__wordmark { color: rgba(255, 255, 255, 0.30) !important; }
     </style>
   </head>
   <body>

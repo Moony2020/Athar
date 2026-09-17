@@ -538,13 +538,13 @@ header.site-header,
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
   max-width: 980px !important;
-  background: rgba(255, 247, 235, 0.65) !important;
-  border: 1px solid rgba(255, 255, 255, 0.8) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-  backdrop-filter: blur(14px) !important;
+  background: rgba(255, 250, 242, 0.18) !important;
+  border: 1px solid rgba(255, 250, 240, 0.32) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  backdrop-filter: blur(4px) !important;
   border-radius: 14px !important;
   padding: 8px 16px !important;
-  box-shadow: 0 8px 26px rgba(68, 40, 14, 0.08) !important;
+  box-shadow: 0 4px 18px rgba(68, 40, 14, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
   width: min(100% - 48px, 980px) !important;
   margin: 0 auto !important;
 }
@@ -556,7 +556,7 @@ header.site-header,
   align-items: center !important;
   justify-content: center !important;
   padding: 3px 10px !important;
-  border-right: 1px solid rgba(37, 27, 18, 0.18) !important;
+  border-right: 1px solid rgba(37, 27, 18, 0.13) !important;
   min-width: 0 !important;
 }
 
