@@ -62,15 +62,22 @@
           flex-wrap: nowrap !important;
           overflow-x: auto !important;
           overflow-y: hidden !important;
-          -webkit-overflow-scrolling: touch !important;
           scroll-snap-type: x mandatory !important;
-          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
           padding: 8px 0 !important;
           gap: 0 !important;
           width: min(calc(100% - 32px), 720px) !important;
           max-width: 720px !important;
           margin: 0 auto 6px !important;
           border-radius: 14px !important;
+        }
+        .notes::-webkit-scrollbar {
+          display: none !important;
+        }
+        @supports (scrollbar-width: none) {
+          .notes {
+            scrollbar-width: none !important;
+          }
         }
         .notes article {
           flex: 0 0 33.333% !important;
@@ -450,9 +457,11 @@
       .notes {
         background: rgba(255, 247, 235, .48) !important;
         border: 1px solid rgba(255, 255, 255, .55) !important;
-        backdrop-filter: blur(14px) saturate(115%) !important;
         -webkit-backdrop-filter: blur(14px) saturate(115%) !important;
+        backdrop-filter: blur(14px) saturate(115%) !important;
         box-shadow: 0 6px 18px rgba(68, 40, 14, .07) !important;
+        scroll-margin: 0 !important;
+        scroll-margin-top: 0 !important;
         padding: 8px 12px !important;
       }
       .notes article {
@@ -651,7 +660,7 @@
         .hero__bottle { left: 50% !important; }
         .hero__wordmark { left: 69% !important; transform: translateX(-50%) !important; }
       }
-      @media (min-width: 900px) {
+      @media (min-width: 992px) {
         .hero__wordmark { left: 74% !important; transform: translateX(-50%) !important; }
       }
       @media (min-width: 993px) {
@@ -699,12 +708,15 @@
       @media (min-width: 992px) {
         .hero__wordmark { left: 69% !important; right: auto !important; transform: translateX(-50%) !important; }
       }
+      @media (min-width: 993px) and (max-width: 999px) {
+        .hero__wordmark { transform: translateX(-50%) translateY(20px) !important; }
+      }
       @media (min-width: 1034px) {
         .hero__wordmark { left: auto !important; right: 30% !important; transform: none !important; }
       }
       @media (min-width: 900px) and (max-width: 992px) {
         .hero__bottle { left: 60% !important; transform: translateX(-50%) translateY(-60px) !important; }
-        .hero__wordmark { left: 63% !important; right: auto !important; transform: translateX(-50%) !important; }
+        .hero__wordmark { left: 63% !important; right: auto !important; transform: translateX(-50%) translateY(20px) !important; }
         .notes.container { width: calc(100% - 140px) !important; }
         .notes-wrapper { transform: translateY(-10px) !important; }
         .notes b { font-size: 0.62rem !important; }
@@ -748,6 +760,51 @@
         .hero__copy h1 { width: max-content !important; max-width: calc(100vw - 40px) !important; font-size: 1.9rem !important; }
         .hero__copy h1 span { white-space: nowrap !important; display: block !important; }
       }
+      .hero__story-link { display: none; }
+      .hero__eyebrow { display: none; }
+      @media (min-width: 992px) {
+        .hero__eyebrow {
+          display: block;
+          margin: 0 0 14px;
+          font-size: .62rem;
+          line-height: 1.45;
+          letter-spacing: .22em;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+        .hero__eyebrow::after {
+          content: "";
+          display: block;
+          width: 24px;
+          border-top: 1px solid currentColor;
+          margin-top: 12px;
+        }
+        .hero__story-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          position: absolute;
+          left: 0;
+          top: 380px;
+          margin-top: 0;
+          color: var(--ink);
+          text-decoration: none;
+          font-size: .62rem;
+          letter-spacing: .16em;
+          line-height: 1.35;
+          font-weight: 600;
+        }
+        .hero__story-play {
+          width: 32px;
+          height: 32px;
+          border: 1px solid currentColor;
+          border-radius: 50%;
+          display: grid;
+          place-items: center;
+          font-size: .65rem;
+          letter-spacing: 0;
+        }
+      }
       @media (max-width: 600px) {
         .hero { min-height: calc(100svh + 15px) !important; }
         .hero__art, .hero__wash { min-height: calc(100svh + 15px) !important; }
@@ -774,6 +831,33 @@
       }
       @media (min-width: 768px) and (max-width: 796px) {
         .hero__bottle { transform: translateX(-50%) translateY(-25px) !important; }
+      }
+      @media (min-width: 601px) and (max-width: 760px) {
+        .hero__bottle { left: 43% !important; transform: translateX(-50%) translateY(0) scale(0.95) !important; }
+        .hero__wordmark { left: 60% !important; transform: translateX(-50%) !important; font-size: clamp(4.5rem, 16vw, 7.2rem) !important; }
+        .notes-wrapper { transform: translateY(-10px) !important; }
+        .hero__copy h1 { font-size: 2.4rem !important; }
+      }
+      @media (min-width: 760px) and (max-width: 848px) {
+        .hero__wordmark { transform: translateX(-50%) translateY(45px) !important; }
+      }
+      @media (min-width: 768px) and (max-width: 849px) {
+        .hero__wordmark { transform: translateX(-50%) translateY(70px) !important; }
+        .hero__copy h1 { font-size: 2.9rem !important; }
+        .hero__bottle { transform: translateX(-50%) translateY(-30px) !important; }
+      }
+      @media (max-width: 768px) {
+        .hero__copy h1 { font-size: 2.6rem !important; }
+      }
+      @media (min-width: 769px) {
+        .hero__copy h1 { font-size: 3.35rem !important; }
+      }
+      @media (max-width: 600px) {
+        .hero__cta {
+          display: block !important;
+          transform: translateY(5px) !important;
+          margin-top: 12px !important;
+        }
       }
     </style>
   </head>
@@ -829,16 +913,21 @@
 
       <section class="hero__content container" id="top">
         <div class="hero__copy">
+          <p class="hero__eyebrow">TIMELESS FRAGRANCES<br />FOR A BRIGHTER TOMORROW</p>
           <h1><span>Scents That</span> <span>Stay With You</span></h1>
           <p class="intro">More than a fragrance.<br />A part of your story.</p>
           <div class="hero__cta">
             <a class="button button--primary" href="#collection">Explore collections <span>→</span></a>
           </div>
+          <a class="hero__story-link" href="#story" aria-label="Watch our story">
+            <span class="hero__story-play" aria-hidden="true">▶</span>
+            <span>WATCH<br />OUR STORY</span>
+          </a>
         </div>
       </section>
 
       <div class="notes-wrapper">
-        <section class="notes container" id="collection" aria-label="Fragrance notes" style="scroll-margin-top:0;scroll-margin:0;">
+        <section class="notes container" id="collection" aria-label="Fragrance notes">
           <article><img class="note-art" src="top-note.png" alt="Bergamot, pear and pink pepper" /><div><b>TOP NOTES</b><p>Bergamot<br />Pear<br />Pink Pepper</p></div></article>
           <article><img class="note-art" src="middle-note.png" alt="Jasmine, orange blossom and rose" /><div><b>MIDDLE NOTES</b><p>Jasmine<br />Orange Blossom<br />Rose</p></div></article>
           <article><img class="note-art" src="base-note.png" alt="Vanilla, sandalwood and musk" /><div><b>BASE NOTES</b><p>Vanilla<br />Sandalwood<br />Musk</p></div></article>
